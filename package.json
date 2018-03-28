@@ -4,6 +4,7 @@
   "description": "노드.js test",
   "main": "modeul.js",
   "dependencies": {
+    "body-parser": "^1.18.2",
     "express": "^4.16.3",
     "pug": "^2.0.3",
     "uglify-js": "^3.3.16",

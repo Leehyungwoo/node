@@ -133,3 +133,99 @@ public 디렉터리는 정적디렉터리이다.
 + 정적이다 : 한번만들면 항상 같다.
 + express 전역에서 쓸수있다.
 + 정적인 파일 수정은 서버를 껐다가 킬필요없이 브라우저 새로고침으로 바로반영된다. 
+
+
+
+# query string
+
+``` javascript
+
+app.get('/topic',function(req,res){
+    res.send(req.query)
+})
+/*
+하고
+http://localhost:3000/topic?id=1000000
+
+쳐본다.
+*/
+```
+
+
+``` javascript
+
+app.get('/topic',function(req,res){
+    res.send(req.query.name)
+})
+/*
+하고
+http://localhost:3000/topic?name=1000000
+
+쳐본다.
+*/
+```
+
+
+``` javascript
+
+app.get('/topic',function(req,res){
+    res.send(req.query.id+','+req.query.name)
+})
+
+/*
+하고
+http://localhost:3000/topic?id=100&name=test
+
+쳐본다.
+*/
+```
+
+
+# Post 사용시 bodyParser 미들웨어 설치
+
++ form method="post" 사용시
+
++ npm install body-parser --save
+
+```javascript
+var bodyParser = require('body-parser')
+
+app.use(bodyParser.urlencoded({ extended: false }))
+
+app.post('/form_receiver',function(req,res){
+    var title= req.body.title;
+    var description= req.body.description;
+    res.end(title+','+description)
+})
+```
+
+## get, post 차이점
+
++ get은 url에 포함된다
+    + 보통 유저에게 url복사기능을제공할때
+    + 쿼리스트링 전송시 데이터가 너무길면 브라우저가 자른다.
+
++ post는 포함되지않는다.
+    + form 태그 내부에써는것 권장
+
+
+# templateengin
+
+http://expressjs.com/en/guide/using-template-engines.html
+
++ npm install pug --save
+
+```javascript
+/*템플릿 엔진이 pretty. 정렬되서 보이게*/
+if (app.get('env') === 'development') {
+    app.locals.pretty = true;
+}   
+
+app.set('view engine', 'pug');  /*템플릿엔진을 쓰겠다는 약속*/
+app.set('views', './views'); /* ./views 디렉터리를 express에게 알려주는 코드. 
+관습적으롤 views 폴더를 사용. 이 코드 사용 안하면 default값이 그대로 적용됨
+*/
+app.get('/form',function(req,res){
+    res.render('form',{form파일 에서 사용할 객체 전달 가능})
+})
+```

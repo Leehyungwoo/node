@@ -1,5 +1,7 @@
 var express = require('express'); //express return값을 담음
+var bodyParser = require('body-parser')
 var app = express(); // var express는 사실 함수라서 함수(application을 리턴) app에 담음 
+
 //express에서 만든 약속
 if (app.get('env') === 'development') {
     app.locals.pretty = true;
@@ -7,8 +9,44 @@ if (app.get('env') === 'development') {
 app.set('view engine', 'pug');
 app.set('views', './views');
 app.use(express.static('public'));
+app.use(bodyParser.urlencoded({ extended: false }))
+
+
 //정적인 파일이 위치하는 디렉토리
 //관습적으로 public이라고 사용
+app.get('/form',function(req,res){
+    res.render('form')
+})
+app.get('/form_receiver',function(req,res){
+    var title = req.query.title;
+    var description = req.query.description;
+    res.send(title+','+ description)
+})
+
+app.post('/form_receiver',function(req,res){
+    var title= req.body.title;
+    var description= req.body.description;
+    res.send(title+','+description)
+})
+
+app.get('/topic/:id',function(req,res){
+    var topics =[
+        'Javascript is...',
+        'Nodejs is...',
+        'Express is...'
+    ];
+    var output =`
+    <a href="/topic/id=0">Javascript</a><br/>
+    <a href="/topic/id=1">Nodejs</a><br/>
+    <a href="/topic/id=2">Express</a>
+    ${topics[req.params.id]}
+    `
+    console.log(req.params.id)
+    res.send(output)
+})
+
+ 
+
 app.get('/template',function(req,res){
     res.render('temp',{
         time:new Date(),
