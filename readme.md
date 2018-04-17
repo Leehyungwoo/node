@@ -195,7 +195,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.post('/form_receiver',function(req,res){
     var title= req.body.title;
     var description= req.body.description;
-    res.end(title+','+description)
+    res.send(title+','+description)
 })
 ```
 
@@ -209,11 +209,14 @@ app.post('/form_receiver',function(req,res){
     + form 태그 내부에써는것 권장
 
 
-# templateengin
+# template engin
 
 http://expressjs.com/en/guide/using-template-engines.html
 
 + npm install pug --save
+
++ api
+    + https://pugjs.org/api/getting-started.html
 
 ```javascript
 /*템플릿 엔진이 pretty. 정렬되서 보이게*/
@@ -226,6 +229,82 @@ app.set('views', './views'); /* ./views 디렉터리를 express에게 알려주�
 관습적으롤 views 폴더를 사용. 이 코드 사용 안하면 default값이 그대로 적용됨
 */
 app.get('/form',function(req,res){
-    res.render('form',{form파일 에서 사용할 객체 전달 가능})
+    res.render('form',{form파일 에서 사용할 객체 전달 가능})  
+    //res객체가 가지고있는 render가 첫번째 인자를 읽어서 그 템플릿의 문법을 읽어서 줌. 
 })
+```
+
+```javascript
+app.get('/form_receiver',function(req, res){
+    res.send(req.query.title+','+req.query.description)
+})
+
+```
+
+# 파일 업로드 API multer 
+
+https://github.com/expressjs/multer
+
+
+
+```html
+    <form action="upload" method="post" enctype="multipart/form-data">
+      <input type="file" name="userfile">
+      <input type="submit">
+    </form>
+
+```
+
+```javascript
+var express = require('express')
+var multer  = require('multer')
+var upload = multer({ dest: 'uploads/' })          dest:'경로'
+var app = express()
+
+app.post('/profile', upload.single('파일명'), function (req, res, next) {
+  // req.file is the `avatar` file
+  // req.body will hold the text fields, if there were any
+})
+
+```
+
+
+# mysql APT node-mysql 
+
+https://www.npmjs.com/package/mysql
+
+```javascript
+
+var mysql      = require('mysql');
+var con = mysql.createConnection({
+  host     : 'localhost',
+  user     : 'root',
+  password : '1234',
+  database : 'o2'
+});
+
+con.connect();
+ 
+
+var sql = 'INSERT INTO topic (title,description,author) VALUES(?,?,?)'
+var params = ['supervisor','watcher','grahittie'];
+con.query(sql,params,function(err,rows,fields){
+    if(err){
+        console.log(err)
+    }else{
+        console.log(rows)
+    }
+})
+
+var sql = 'DELETE FROM topic SET title=?, description=?, author=? WHERE id=?';
+var params = ['a','b','c',9];
+con.query(sql,params,function(err,rows,fields){
+    if(err){
+        console.log(err)
+    }else{
+        console.log(rows)
+    }
+})
+con.end();
+
 ```
