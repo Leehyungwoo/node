@@ -211,6 +211,11 @@ app.post('/form_receiver',function(req,res){
 
 # template engin
 
+
++ ejs
+    http://ejs.co/
+
+
 http://expressjs.com/en/guide/using-template-engines.html
 
 + npm install pug --save
