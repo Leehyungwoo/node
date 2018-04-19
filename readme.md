@@ -124,7 +124,6 @@ app.listen(3000,function(){
 
 # public
 
-
  ```javascript
 app.use(express.static('public')); 
  ```
@@ -137,6 +136,13 @@ public 디렉터리는 정적디렉터리이다.
 
 
 # query string
+topic?id=1&name=leewoo
+이런 url일경우, ?뒤에는 쿼리고, &는 1개이상의 쿼리를 나타낼때 사용한다.
+http://expressjs.com/ko/4x/api.html#req.query 참고.
+
+url을 사용하는것은 요청하는것이니 request로 받는것.
+
+req.query로 받아온다.
 
 ``` javascript
 
@@ -179,6 +185,27 @@ http://localhost:3000/topic?id=100&name=test
 쳐본다.
 */
 ```
+# sementic url
+
+topic/1
+이런 url일 경우, sementicURL 이라고하는데 이것은 
+req.params로 받아온다.
+
+``` javascript
+
+app.get('/topic/:id',function(req,res){
+    res.send(req.param.id)
+})
+
+
+/*/topic/1/test   이렇게 패스뎁스가 2인경우.*/
+app.get('/topic/:id/:mode',function(req,res){
+    console.log(req.params)
+    res.send(req.params.id + ','+  req.params.mode)
+})
+
+
+ ```
 
 
 # Post 사용시 bodyParser 미들웨어 설치
