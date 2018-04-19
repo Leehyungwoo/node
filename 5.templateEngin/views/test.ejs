@@ -6,15 +6,17 @@
   <meta name="Author" content="">
   <meta name="Keywords" content="">
   <meta name="Description" content="">
-  <title>Document</title>
+  <title> <%=a %>  </title>
   
  </head>
  <body>
-     <%=variable %>
+     <%=arr %>
+    
     <ul>
-        <% for(var i=0; i<5; i++){ %>
+       
+        <% for(var i=0; i< len ; i++) { %>
             <li>
-                <% i %>
+                <%=arr[i] %>
             </li>
         <% } %>
     </ul>

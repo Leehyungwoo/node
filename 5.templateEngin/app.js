@@ -1,6 +1,6 @@
 const express = require('express');   
 var app = express();   
-
+const title ="타이틀"
 
 /* 여기서 */
 
@@ -9,7 +9,9 @@ app.set('view engine', 'ejs');
 app.set('views', './views'); 
 
 app.get('/test',function(req,res){
-    res.render('test',{test:5,variable:'변수명'})  
+    var abc =  ['a','b','c','d','e','f'];
+    var len = abc.length;
+    res.render('test',{arr:abc,len:len, a:title} )  
     //res객체가 가지고있는 render가 첫번째 인자를 읽어서 그 템플릿의 문법을 읽어서 줌. 
 })
 
