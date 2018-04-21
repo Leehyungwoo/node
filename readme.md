@@ -210,6 +210,8 @@ app.get('/topic/:id/:mode',function(req,res){
 
 # Post 사용시 bodyParser 미들웨어 설치
 
++ express에서는 post방식으로 데이터 전달시 그데이터는 정의되어있지않다. body-Parser를 사용해야한다.
+
 + form method="post" 사용시
 
 + npm install body-parser --save
