@@ -9,7 +9,13 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.set('views', './views');
 app.set('view engine', 'ejs');
 app.get('/topic/new',(req,res)=>{
- res.render('new')
+    fs.readdir('data/', (err, files) => {
+        if(err){
+            console.log(err) 
+         }  
+         res.render('new',{topics:files})
+    });
+
 })
 
 app.get(['/topic','/topic/:id'],(req,res)=>{

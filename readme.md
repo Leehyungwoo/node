@@ -342,3 +342,159 @@ con.query(sql,params,function(err,rows,fields){
 con.end();
 
 ```
+
+
+
+
+
+#Cookies
+
+http://expressjs.com/ko/4x/api.html#req.cookies
+
+```javascript
+
+var express = require('express');
+var cookieParser = require('cookie-parser');
+var app = express();
+app.use(cookieParser());
+app.get('/count', function(req, res){
+  if(req.cookies.count){
+    var count = parseInt(req.cookies.count);
+  } else {
+    var count = 0;
+  }
+  count = count+1;
+  res.cookie('count', count);
+  res.send('count : ' + count);
+});
+app.listen(3000, function(){
+  console.log('Connected 3000 port!!!');
+});
+
+```
+
+쿠키값 난독화시키기
+
+```javascript
+
+var express = require('express');
+var cookieParser = require('cookie-parser');
+var app = express();
+app.use(cookieParser('390218309ADFO32480dsad@!#!@!@#'))
+app.get('/count', function(req, res){
+  if(req.signedCookies.count){
+    var count = parseInt(req.signedCookies.count);
+  } else {
+    var count = 0;
+  }
+  count = count+1;
+  res.cookie('count', count);
+  res.send('count :' + count, {signed:true});
+});
+app.listen(3000, function(){
+  console.log('Connected 3000 port!!!');
+});
+ 
+
+```
+
+
+
+
+
+
+
+# session
+https://www.npmjs.com/package/express-session
+
+쿠키는 사용자 컴퓨터에 모든 값을 담는것이고
+세션은 사용자 브라우저에 링크 키 정보만으로 서버에 있는 값을 가져온다
+
+
+```javascript
+var express = require('express');
+var session = require('express-session');
+var app = express();
+app.use(session({
+  secret: '1234DSFs@adf1234!@#$asd',
+  resave: false,
+  saveUninitialized: true
+}));
+app.get('/count', function(req, res){
+  if(req.session.count) {
+    req.session.count++;
+  } else {
+    req.session.count = 1;
+  }
+  res.send('count : '+req.session.count);
+});
+app.listen(3000, function(){
+  console.log('Connected 3000 port!!!');
+});
+```
+
+
+
+# 암호 코드 암호화기법 난독화. 아래챕터는 예시일뿐, 그때그때 암호화체계가 뚫렸을수도있기때문에 상황을 봐야한다. 
++ 검색어 crypto
+
+## sha
+https://www.npmjs.com/package/sha
+
+## md5
+https://www.npmjs.com/package/md5
+
+## md5  보안 뚫림 절대 비권장
+
+
+
++ 1 이렇게하면 절대안된다. 이미보안뚫림. https://crackstation.net/
+```javascript
+const express = require('express');
+const md5 = require('md5');
+const app = express();
+
+ 
+app.get('/',function(req,res){
+    var a = md5('hagfd')
+    res.send(a)
+})
+
+app.listen(3000, function () {
+    console.log('http://localhost:3000/')
+})
+
+```
+
++ 2 salt 방식이라고함. 소금을친다는 뜻. 좀더 해킹을 힘들게할뿐 그래도 보안이슈가 여전히 존재.  그래서 md5를 암호화를 사용하지말라고한다.
+
+```javascript
+const express = require('express');
+const md5 = require('md5');
+var salt = "@!#!$##@$24jsdf";
+const app = express();
+
+ 
+app.get('/',function(req,res){
+    var password = "111"
+
+    var a = md5(password)
+    var b = md5(password+salt)
+
+    res.send(a+'<br>'+b)
+})
+
+app.listen(3000, function () {
+    console.log('http://localhost:3000/')
+})
+
+
+```
+
+
+
+
+# pbkdf2-password
+https://www.npmjs.com/package/pbkdf2-password1
+
++ salt를 자동으로생성해줌

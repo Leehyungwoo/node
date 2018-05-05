@@ -1,0 +1,17 @@
+mvc 모델에서
+
+m은 데이터 (데이터서버 or 데이터)
+v는 뷰 (html파일을 갖고있는 서버 혹은, 본인)
+c는 컨트롤러(웹서버)
+
+
+
+노트북에 데이터 서버 설치 (검색해보기)
+
+
+crypto    비밀번호 난독화
+https://www.zerocho.com/category/NodeJS/post/593a487c2ed1da0018cff95d
+
+
+
+
